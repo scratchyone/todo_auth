@@ -17,6 +17,7 @@ use uuid::Uuid;
 //fn save(db: &Database) {
 //fs::write("db.json", serde_json::to_string(&db).unwrap()).unwrap();
 //}
+
 #[derive(Serialize, Deserialize, Debug)]
 struct CheckToken {
     token: String,
@@ -38,7 +39,7 @@ fn check_token(data: Json<CheckToken>) -> Json<serde_json::Value> {
         "SELECT username FROM tokens WHERE token = $1",
         &[&data.token],
     ) {
-        if data.token != "" {
+        if data.token != "" && user.get::<&str, String>("username") {
             Json(serde_json::json!({
                 "error": false,
                 "username": user.get::<&str, String>("username"),
