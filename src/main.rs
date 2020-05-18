@@ -39,7 +39,7 @@ fn check_token(data: Json<CheckToken>) -> Json<serde_json::Value> {
         "SELECT username FROM tokens WHERE token = $1",
         &[&data.token],
     ) {
-        if data.token != "" && user.get::<&str, String>("username") {
+        if data.token != "" {
             Json(serde_json::json!({
                 "error": false,
                 "username": user.get::<&str, String>("username"),
